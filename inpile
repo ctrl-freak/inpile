@@ -1,0 +1,77 @@
+#!/bin/bash
+
+usage="$(basename "$0") [-h] [-c <configfile>] -f <sourcedir> -s <sourcefile> -d <destination dir>"
+
+#if [ "$1" = "--help" ] || [ "$1" = "-h" ] || [ "$1" = "" ]; then
+#       echo $usage
+#       exit
+#fi
+
+while getopts 'hc:d:f:s:' option; do
+  case ${option} in
+    h)  echo "$usage"
+        exit
+                ;;
+    c)  if [ -f "$OPTARG" ]; then
+                        configfile=`realpath $OPTARG`
+                else
+                        echo "configfile does not exist"
+                        exit
+                fi
+                ;;
+    f)  if [ -d "$OPTARG" ]; then
+                        sourcedir=`realpath $OPTARG`
+                else
+                        echo "sourcedir does not exist"
+                        exit
+                fi
+                ;;
+    s)  if [ -f "$OPTARG" ]; then
+                        sourcefile=`realpath $OPTARG`
+                else
+                        echo "sourcefile does not exist"
+                        exit
+                fi
+                ;;
+    d)  if [ -d "$OPTARG" ]; then
+                        destination=`realpath $OPTARG`
+                else
+                        echo "destination does not exist"
+                        exit
+                fi
+                ;;
+   \?)  printf "illegal option: -%s\n" "$OPTARG" >&2
+        echo "$usage" >&2
+        exit 1
+        ;;
+  esac
+done
+shift $((OPTIND -1))
+
+# defaults
+
+before="echo Starting"
+after="echo Stopping"
+
+if [ "$sourcefile" != "" ]; then
+        newfile=$destination"/"`basename $sourcefile`
+fi
+
+if [ "$configfile" != "" ]; then
+        . $configfile
+fi
+
+#echo "sourcedir: $sourcedir"
+#echo "sourcefile: $sourcefile"
+#echo "destination: $destination"
+#echo "newfile: $newfile"
+
+eval $before
+
+rsync -a -f"+ */" -f"- *" $sourcedir/* $destination
+if [ "$sourcefile" != "" ]; then
+        mv -n $sourcefile $destination
+        ln -s $newfile $sourcefile
+fi
+
+eval $after
