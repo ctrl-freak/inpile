@@ -9,11 +9,17 @@ Recommended:
 
 ## Installation
 
-Add the current user (or the preferred user) to the incron allowed users
+1. Add the current user (or the preferred user) to the incron allowed users
 
-    echo `whoami` | sudo tee -a /etc/incron.allow
+        echo `whoami` | sudo tee -a /etc/incron.allow
 
-Copy the `inpile` command/script to somewhere in `$PATH`, like `/usr/local/bin`
+2. Copy the `inpile` command/script to somewhere in `$PATH`, like `/usr/local/bin`
+
+        sudo cp ./inpile /usr/local/bin/
+
+3. Mark the `inpile` script as executable:
+
+        sudo chmod a+x /usr/local/bin/inpile
 
 ## Usage
 `$ inpile -h`
@@ -24,7 +30,7 @@ Copy the `inpile` command/script to somewhere in `$PATH`, like `/usr/local/bin`
 
 You have a directory `/media/storage/synced` which you would like to pull files out of an unzip into another folder `/media/storage/library`
 
-1. Create the configfile using the Example below.
+1. Create the configfile using the [Example below](#example-configfile-sync-pauseconf).
 2. Create a incrontab entry (`incrontab -e`):
 
         /media/storage/synced IN_CLOSE_WRITE inpile -c /media/storage/sync-pause.conf -f $@ -s $@/$# -d /media/storage/library
