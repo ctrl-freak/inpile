@@ -32,9 +32,13 @@ You have a directory `/media/storage/synced` which you would like to pull files 
 1. Create the configfile using the [Example below](#example-configfile-sync-pauseconf).
 2. Create a incrontab entry (`incrontab -e`):
 
-        /media/storage/synced IN_CLOSE_WRITE inpile -c /media/storage/sync-pause.conf -f $@ -s $@/$# -d /media/storage/library
+        /media/storage/synced IN_CLOSE_WRITE,IN_MOVED_TO inpile -c /media/storage/sync-pause.conf -f $@ -s $@/$# -d /media/storage/library
 
 3. Check syslog for changes: `sudo tail -f /var/log/syslog`. You may need to create a change to initiate the first sync.
+4. If you do not get any updates, replace the line in `incrontab -e` with:
+
+        /media/storage/synced IN_CLOSE_WRITE,IN_MOVED_TO echo "$@ $# $% $&"
+5. Then monitor syslog for the appropriate action to monitor.
 
 ### Example Result
 
@@ -74,8 +78,6 @@ You have a directory `/media/storage/synced` which you would like to pull files 
         │   └── test2
         └── test.txt -> /media/storage/library/test.txt
 
-
-
 ## Configuration
 
 Variables able to be set in configfile:
@@ -94,5 +96,7 @@ Variables available for use in configfile:
 ## Example configfile `sync-pause.conf`
 
     before="mega-sync -s 0"
-    after="mega-sync -r 0; if [ '$sourcefile' != '' ]; then dtrx -r -q -n $newfile; fi;"
+    after="mega-sync -r 0; if [ '$sourcefile' != '' ]; then cd `dirname $newfile`; dtrx -r -q -n $newfile; fi;"
+    #destination=
+    #sourcedir=
 
