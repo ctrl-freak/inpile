@@ -78,11 +78,18 @@ You have a directory `/media/storage/synced` which you would like to pull files 
 
 ## Configuration
 
+Variables able to be set in configfile:
+- before: Command to run before rsync, mv, and softlink
+- after: Command to run after rsync, mv, and softlink
+- sourcedir (not required if passed via script argument)
+- destination (not required if passed via script argument)
+
 Variables available for use in configfile:
-- $sourcedir
 - $sourcefile
-- $destination
 - $newfile
+- $sourcedir (if passed via script argument)
+- $destination (if passed via script argument)
+
 
 ## Example configfile `sync-pause.conf`
 
