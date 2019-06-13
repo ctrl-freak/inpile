@@ -22,13 +22,12 @@ Recommended:
         sudo chmod a+x /usr/local/bin/inpile
 
 ## Usage
-`$ inpile -h`
 
     inpile [-h] [-c <configfile>] -f <sourcedir> -s <sourcefile> -d <destination dir>
 
 ## Example
 
-You have a directory `/media/storage/synced` which you would like to pull files out of an unzip into another folder `/media/storage/library`
+You have a directory `/media/storage/synced` which you would like to pull files out of into another folder `/media/storage/library` (and extract).
 
 1. Create the configfile using the [Example below](#example-configfile-sync-pauseconf).
 2. Create a incrontab entry (`incrontab -e`):
