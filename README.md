@@ -13,11 +13,11 @@ Recommended:
 
         echo `whoami` | sudo tee -a /etc/incron.allow
 
-2. Copy the `inpile` command/script to somewhere in `$PATH`, like `/usr/local/bin`
+2. Copy the script to somewhere in `$PATH`, like `/usr/local/bin`
 
         sudo cp ./inpile /usr/local/bin/
 
-3. Mark the `inpile` script as executable:
+3. Mark the script as executable:
 
         sudo chmod a+x /usr/local/bin/inpile
 
