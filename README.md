@@ -50,7 +50,7 @@ You have a directory `/media/storage/synced` which you would like to pull files 
         ├── source.txt
         └── testdir
             └── test2
-    user@host:/media/storage$ touch source/test.txt
+    user@host:/media/storage$ touch synced/test.txt
     user@host:/media/storage$ tree
     .
     ├── library
